@@ -1,5 +1,10 @@
 import numpy as np
 
+
+"""
+the calculation is mainly carried out in the cgs units
+"""
+
 def fftime(rho):
 	"""
 	calculate free-fall timescale of molecular clouds
@@ -26,4 +31,22 @@ def ffv(m, r):
 	v = np.sqrt(2*G*m*1.99e33/(r*3.086e18))
 	v = v/1e5
 	return v
+
+
+def tau(tex, tmb, mu):
+	"""
+	calculate opacity of spectra
+	input:
+	tex in units of K   (excitation temperature)
+	tmb in units of K   (main beam temperature)
+	mu  in units of GHz (rest frequency)
+	"""
+	h = 6.6260755e-27
+	k = 1.380658e-16
+	mu = mu *1e9
+	tbg = 2.73          # cosmic microwave background 
+	mj1 = h*mu/k*(np.exp(h*mu/k/tex)-1)**(-1)
+	mj2 = h*mu/k*(np.exp(h*mu/k/tbg)-1)**(-1)
+	opacity = - np.log(1-tmb/(mj1-mj2))
+	return opacity
 
