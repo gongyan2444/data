@@ -35,7 +35,7 @@ def ffv(m, r):
 
 def tau(tex, tmb, mu):
 	"""
-	calculate opacity of spectra
+	calculate opacity of spectra with the radiative transfer equation
 	input:
 	tex in units of K   (excitation temperature)
 	tmb in units of K   (main beam temperature)
