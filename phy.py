@@ -18,6 +18,23 @@ def fftime(rho):
 	t = t/3600./24./365./1e6
 	return t
 
+def Fctime(rho, A):
+	"""
+	calculate collapse timescale of filaments (Clarke & Whitworth 2015)
+	input:
+	rho: number denseity in units of cm^-3
+        A: aspect ratio defined as half length divided by width 
+	return :
+	collapse timescale in units of Myr
+	"""
+	G = 6.67259e-8
+	t = (0.49+0.26*A)/np.sqrt(G*rho*2.8*1.6733e-24)
+	t = t/3600./24./365./1e6
+	return t
+
+
+
+
 def ffv(m, r):
 	"""
 	calculate free-fall velocity of molecular clouds
