@@ -50,6 +50,17 @@ cumu2 = np.cumsum(values2)
 cumu2 = np.hstack((0, cumu2))
 plt.plot(base2, cumu2/np.max(cumu2),c='b')
 
+
+for i in np.arange(9):
+	idx1 = int((i+1)/10.*60000)
+	idx2 = int((1-(i+1)/10) *60000)
+	bim1 = np.concatenate((new1[0:idx1],new2[0:idx2])) 	
+	bval1, bbas1 = np.histogram(bim1, bins=40)
+	bcumu1 = np.cumsum(bval1)      
+	bcumu1 = np.hstack((0, bcumu1))
+	plt.plot(bbas1, bcumu1/np.max(bcumu1),c='tab:orange',ls='--')
+
+
 plt.show()
 
 
