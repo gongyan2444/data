@@ -6,6 +6,10 @@
 # This file is used to show how to make a LIC map with Magnetar.
 # 
 # This can be used to show large-scale gradients as well.
+'''
+prepare 'prefix'-I.fits 'prefix'-Q.fits 'prefix'-U.fits
+usage: python planck-Bfield.py prefix # prefix = "L1188"
+'''
 
 import sys
 import numpy as np
