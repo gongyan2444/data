@@ -67,3 +67,11 @@ def tau(tex, tmb, mu):
 	opacity = - np.log(1-tmb/(mj1-mj2))
 	return opacity
 
+
+
+## this set up gives you the option to run (or not run) a chunk of code when imported from another python file ##
+
+if __name__ == '__main__':
+	print("run from python")
+else:
+	print("run from import")
