@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.optimize import curve_fit
-
+#have a try
 
 def lfun(x, a, b):
 	return a*x+b
