@@ -67,6 +67,41 @@ def tau(tex, tmb, mu):
 	opacity = - np.log(1-tmb/(mj1-mj2))
 	return opacity
 
+def alfven(bt, rho):
+	"""
+	calculate Alfvenic velocity.
+	Inputs:
+		bt:  magnetic field in units of micro Gauss
+		rho: number density in units of cm-2
+	return:
+		Alfvenic velocity in units of km/s.
+	"""
+	avelo = bt*1e-6/np.sqrt(4*np.pi*rho*2.8*1.6733e-24)/1e5
+
+	return avelo
+
+
+
+def Planckfunc_cgs(freq, temperature):
+    """
+    Calculate Planck function. Taken from Astrobao
+  
+    Inputs:
+       freq: frequency, in Hz
+       temperature: temperature in Kelvin
+     
+    Return:
+       Intensity: in cgs unit ( erg s^-1 sr^-1 cm^-2 Hz-1 )
+    """
+
+    # defining physical constants
+    c_cgs       = 29979245800.0   # light speed
+    h_cgs       = 6.62606885e-27  # planck constant
+    kB_cgs      = 1.38064852e-16  # Boltzmann constant
+
+    A = ( 2.0 * h_cgs * (freq**3.0) ) /  ( c_cgs ** 2.0 )
+    B = np.exp( (h_cgs * freq) / (kB_cgs * temperature) )
+    return A * ( 1.0 / (B - 1.0) )
 
 
 ## this set up gives you the option to run (or not run) a chunk of code when imported from another python file ##
