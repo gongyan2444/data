@@ -124,6 +124,42 @@ def Planckfunc_cgs(freq, temperature):
     return A * ( 1.0 / (B - 1.0) )
 
 
+def vlsr_to_vhelio(ra_deg,dec_deg,vlsr):
+    """
+        LSR defined by removing peculiar Solar Motion
+        of 20.0 km/s toward 18.0 hours, +30.0 degree(RA, DEC)
+        (Defined in 1900.0 system, so precess to J2000)
+    """
+    Vsun = 20.0 #kms
+    RA_Vsun = np.deg2rad(18.0640000*15.0) #18 hours in J1900
+    DE_Vsun = np.deg2rad(30.0024000)      #30 deg in J1900
+
+    cos_RA =np.cos(RA_Vsun)
+    sin_RA =np.sin(RA_Vsun)
+
+    cos_DE =np.cos(DE_Vsun)
+    sin_DE =np.sin(DE_Vsun)
+
+    ra_rad = np.deg2rad(ra_deg)
+    dec_rad = np.deg2rad(dec_deg)
+
+    cos_alpha = np.cos(ra_rad)
+    sin_alpha = np.sin(ra_rad)
+
+    cos_delta = np.cos(dec_rad)
+    sin_delta = np.sin(dec_rad)
+
+    #solar pecular motion in Equatorial Cartesian frame
+    Xo = Vsun*cos_RA*cos_DE        # toward RA=0h
+    Yo = Vsun*sin_RA*cos_DE        # toward RA=6h in equat plane
+    Zo = Vsun*sin_DE               # toward Dec=90 (North)
+
+    v_proj = -Xo*cos_alpha*cos_delta - Yo*sin_alpha*cos_delta - Zo*sin_delta
+    vhelio = vlsr+v_proj
+
+    return vhelio
+
+
 ## this set up gives you the option to run (or not run) a chunk of code when imported from another python file ##
 
 if __name__ == '__main__':

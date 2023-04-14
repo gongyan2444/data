@@ -79,11 +79,13 @@ class LEstimator(QWidget):
             d   = float(self.txt_d.text())
             flux = float(self.txt_flux.text())
             f    = float(self.txt_f.text())
+            h = 6.6260755e-27   #erg s
             d = d*1000*3.086e18
             flux = flux*1e-23*1e5/2.99792458e10*f*1e9
             Ls = 4*np.pi*d**2*flux
             Ls_sun = Ls/3.9e33
-            self.result_label.setText(f"The Luminosity is: {Ls:.2e} s<sup>-1</sup> or {Ls_sun:.2e} L<sub>☉</sub>")
+            Ls_ph  = Ls/h/f/1e9
+            self.result_label.setText(f"The Luminosity is: {Ls:.2e} erg s<sup>-1</sup> or {Ls_sun:.2e} L<sub>☉</sub> or {Ls_ph:.2e} s<sup>-1</sup>")
             #self.result_box.setPlainText(r"The Luminosity is: {:.2e} s\u207B\u00B3".format(Ls))
             
         except ValueError:
