@@ -1,5 +1,5 @@
 import numpy as np
-
+import scipy.optimize
 
 """
 the calculation is mainly carried out in the cgs units
@@ -160,6 +160,47 @@ def vlsr_to_vhelio(ra_deg,dec_deg,vlsr):
     return vhelio
 
 
+
+
+def mcratio(a, b, da, db):
+    '''
+    estimate the uncertainties of the ratio (a/b) using Monte Carlo
+    a        Numerator  
+    b        denominator
+    da       1 sigma error of Numerator
+    db       1 sigma error of denominator
+    '''
+    ratio = a/b
+    s1 = np.random.normal(a,da,10000)
+    s2 = np.random.normal(b,db,10000)
+    sample = s1/s2
+    err = np.std(sample)
+    err2 = 0.5*(np.percentile(sample, 84)- np.percentile(sample, 16))
+    return ratio, err, err2
+
+def wmean(a,b, da, db):
+    '''
+    estimate the uncertainties of the weighted mean using Monte Carlo
+    a        Numerator  
+    b        denominator
+    da       1 sigma error of Numerator
+    db       1 sigma error of denominator
+    '''
+    val = (a/da**2+b/db**2)/(1/da**2+1/db**2)
+    s1 = np.random.normal(a,da,10000)
+    s2 = np.random.normal(b,db,10000)
+    sample = (s1/da**2+s2/db**2)/(1/da**2+1/db**2)
+    err = np.std(sample)
+    err2 = 0.5*(np.percentile(sample, 84)- np.percentile(sample, 16))
+    return val, err, err2
+
+
+def caltau(iso, ratio):
+	def F(x):
+		return (1-np.exp(-x))/(1-np.exp(-x/iso))-ratio
+
+	tau = scipy.optimize.broyden1(F, [0.1], f_tol=1e-14)
+	return tau
 ## this set up gives you the option to run (or not run) a chunk of code when imported from another python file ##
 
 if __name__ == '__main__':
